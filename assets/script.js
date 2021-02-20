@@ -126,9 +126,8 @@ function results(){
     });
   }
 
-  start.addEventListener("click", function () {    
-    setTime();
-    displayQuestions();
-    start.style.display = "none";
-
-})
+//   start.addEventListener("click", function () {    
+//     setTime();
+//     displayQuestions();
+//     start.style.display = "none";
+// })

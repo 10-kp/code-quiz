@@ -1,10 +1,10 @@
 # code-quiz
 
-Link:
+Link: https://10-kp.github.io/code-quiz/
 
-Git Hub Link:
+Git Hub Link: https://github.com/10-kp/code-quiz
 
-Screenshot
+Screenshot: ![Screeshot](https://github.com/10-kp/code-quiz/blob/main/assets/screen-shot-of-page.png?raw=true)
 
 HTML
 - Populated the index using [shift !] 
@@ -14,7 +14,6 @@ HTML
 - Create a timer for 30 sec
 - Game over if timer reaches 0 or all questions answered
 - On click of the button, go to the first question
-
 - Save intitals & score
 
 
@@ -35,8 +34,9 @@ Js
 - variable for questions and answers
 - generate the quiz with the the variables created above
 - for loops - answers and questions
-- //radio button 
-- push for the answers s
+- radio button 
+- push for the answers
+- Intials & high score
 
 
 
