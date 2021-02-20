@@ -105,7 +105,7 @@ function results(){
   quiz.append(input);
   
   var save = document.createElement("button");
-  save.innerHTML = "type your name and click to save";
+  save.innerHTML = "Type your name and click to save";
   quiz.append(save);
   
   save.addEventListener("click", function (event) {
