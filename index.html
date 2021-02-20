@@ -14,30 +14,25 @@
         <h2>You Are Going To Be Tested On Your Knowledge Of Javascript Fundamentals</h2>
         <p>This will be timed. The questions will appear and you will have 30 seconds to answer.</p>
         <h3>Good Luck!</h3>
-        
-        
-        <div id="quiz"></div>
-        <!-- Create a Start button -->
-        <button class="start-button">Start</button>
 
-        <!-- Submit -->
-        <!-- <button id="submit">Get Results</button> -->
-        <div id="results"></div>
-    </main>
+    </main>    
+    
+    <h3 id="timer">Seconds remaining</h3>
 
-    <section>
-        <!-- HOW TO MOVE IT TO THE NEXT PAGE -->
-        </div>
-            <div class= "card timer">
-            <div class = "timer-text">
-            <div class="large-font timer-count">30</div>
-            <h3>seconds remaining</h3>
-        </div>
+    <div id="container">
+        <h2 id = "question"></h2>
+        <div id="quiz">
+            <button class="start"> Start </button>
+            <p id="choice1" onclick="checkAnswer('choice1')"></p>
+            <p id="choice2" onclick="checkAnswer('choice2')"></p>
+            <p id="choice3" onclick="checkAnswer('choice3')"></p>
+            <p id="choice4" onclick="checkAnswer('choice4')"></p>
+            </div>
 
-        <!-- How to add this to the quiz instead of main -->
-        <!-- <input id="view-scores" type="button" value="View Scores"> -->
-    </section>
 
+
+    </div>
+    
     <script src = "assets/script.js"></script>
 
 </body>

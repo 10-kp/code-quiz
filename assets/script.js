@@ -1,158 +1,134 @@
-var quizContainer = document.getElementById('quiz');
-var resultsContainer = document.getElementById('results');
-var submitButton = document.getElementById('submit');
-var timerElement = document.querySelector(".timer-count");
-var startButton = document.querySelector(".start-button");
+var start = document.querySelector("#start");
+var timer = document.querySelector("#timer");
+var quiz = document.querySelector("#quiz");
+var question = document.querySelector("#question");
+var choice1 = document.querySelector("#choice1");
+var choice2 = document.querySelector("#choice2");
+var choice3 = document.querySelector("#choice3");
+var choice4 = document.querySelector("#choice4");
+var startTimer = 30;
+var correct = 0;
+var incorrect = 0;
+var currentIndex = 0;
+var questions = [
+  {
+    title: "What are the different data types present in javascript?",
+    choices: ["Boolean", "Number", "String", "All of the above"],
+    answer: 'choice4' 
+  },
 
-// FOR THE TIMER
-var timer;
-var timerCount;
-
-// The startGame function is called when the start button is clicked
-function startGame() {
-    isWin = false;
-    timerCount = 30;
-    // Prevents start button from being clicked when round is in progress
-    startButton.disabled = true;
-    renderBlanks()
-    startTimer()
-  }  
+  {
+    title: "Which of the following a is not a keyword in Java?",
+    choices: ["Class", "Interface", "Extends", "Abstraction"],
+    answer: 'choice3' 
+  },
+  {
+    title: "Which is the correct syntax?",
+    choices: ["public class ABC extends QWE extends Student", "int i='A';", 'String s="Hello";', 'private class ABC'],
+    answer: 'choice2'
+  },
+  {
+    title: "What is true about Java?",
+    choices: ["Java is platform specific", "Java does not support multiple inheritance", 
+    'Java does not run on Linux and Mac', 'Java is not a multi-threaded language'],
+    aswer: 'choice1'
+  }
+];
 
 //THIS DOES NOT WORK!!
 function startTimer() {
     // Sets timer
-    timer = setInterval(function() {
-      timerCount--;
-      timerElement.textContent = timerCount;
-
-    //   STOP THE TIMER - NOT WORKING!!
-      if (timerCount >= 0 || timerCount===0) {
-          // Clears interval and stops timer
-          clearInterval(timer);
+    var timerInterval = setInterval(function() {
+      startTimer--;
+      timer.textContent = startTimer + " seconds left.";
+  
+      if(startTimer === 0 || currentIndex === questions.length) {
+        clearInterval(timerInterval);
+        timer.textContent = "";
+        alert("finish");
+        results();
+      }
+  
     }, 1000);
   }
 
-// QUESTIONS
-var myQuestions = [
-  {question: "What are the different data types present in javascript?",
-    answers: {
-      a: 'Boolean',
-      b: 'Number',
-      c: 'String',
-      d: 'All of the above'
-    },
-    correctAnswer: 'd'
-  },
-  {question: "Which of the following a is not a keyword in Java?",
-    answers: {
-      a: 'class',
-      b: 'interface',
-      c: 'extends',
-      d: 'abstraction'
-    },
-    correctAnswer: 'c'
-  },
-  {question: "Which is the correct syntax?",
-    answers: {
-      a: 'public class ABC extends QWE extends Student',
-      b: 'int i="A";',
-      c: 'String s="Hello";',
-      d: 'private class ABC'
-    },
-    correctAnswer: 'b'
-  },
-
-  {question: "What is true about Java?",
-    answers: {
-      a: 'Java is platform specific',
-      b: 'Java does not support multiple inheritance',
-      c: 'Java does not run on Linux and Mac',
-      d: 'Java is not a multi-threaded language'
-    },
-    correctAnswer: 'a'
-  }
-];
-
-generateQuiz(myQuestions, quizContainer, resultsContainer, submitButton);
-
-function generateQuiz(questions, quizContainer, resultsContainer, submitButton){
-
-  function showQuestions(questions, quizContainer){
-    // Store the answer choices
-    var output = [];
-    var answers;
-
-    // Loop each question
-    for(var i=0; i<questions.length; i++){
-      
-      // first reset the list of answers
-      answers = [];
-
-      // loop available answer
-      for(letter in questions[i].answers){
-
-        // an html radio button - 
-        answers.push(
-          '<label>'
-            + '<input type="radio" name="question'+i+'" value="'+letter+'">'
-            + letter + ': '
-            + questions[i].answers[letter]
-          + '</label>'
-        );
-      }
-
-      // add this question and its answers to the output
-      output.push(
-        '<div class="question">' + questions[i].question + '</div>'
-        + '<div class="answers">' + answers.join('') + '</div>'
-      );
+  function displayQuestions() {
+    for (var i = 0; i < questions.length; i++) {
+        var c = questions[currentIndex].choices;
+        var q = questions[currentIndex].title;
+        choice1.innerHTML = c[0];
+        choice2.innerHTML = c[1];
+        choice3.innerHTML = c[2];
+        choice4.innerHTML = c[3];
+        question.innerHTML = q;
     }
-
-    // Combine output list into one string of html
-    quizContainer.innerHTML = output.join('');
-  }
-
-
-  function showResults(questions, quizContainer, resultsContainer){
-    
-    // gather answer containers from our quiz
-    var answerContainers = quizContainer.querySelectorAll('.answers');
-    
-    // keep track of user's answers
-    var userAnswer = '';
-    var numCorrect = 0;
-    
-    // Loop each question
-    for(var i=0; i<questions.length; i++){
-
-      // Selected answer
-      userAnswer = (answerContainers[i].querySelector('input[name=question'+i+']:checked')||{}).value;
-      
-      // if answer is correct
-      if(userAnswer===questions[i].correctAnswer){
-        // add to the number of correct answers
-        numCorrect++;
-        
-        // color the answers green
-        answerContainers[i].style.color = 'lightgreen';
-      }
-      // if answer is wrong or blank
-      else{
-        // color the answers red
-        answerContainers[i].style.color = 'red';
-      }
-    }
-
-    // show number of correct answers out of total
-    resultsContainer.innerHTML = numCorrect + ' out of ' + questions.length;
-  }
-
-  // show questions 
-  showQuestions(questions, quizContainer);
-  
-  // on submit, show results
-//   submitButton.onclick = function(){
-//     showResults(questions, quizContainer, resultsContainer);
-//   }
-
 }
+
+function checkAnswer(answer) {
+    if (questions[currentIndex].answer == answer) {
+        alert("correct");
+        correct++;
+        nextQuestion();
+    }
+    else {
+        alert("incorrect");
+        incorrect++;
+        startTimer= startTimer - 8;
+        nextQuestion();
+    }
+}
+
+function nextQuestion(){
+  currentIndex++;
+  displayQuestions();
+  
+}
+
+function results(){
+  var score = parseInt(correct) + parseInt(startTimer);
+  question.innerHTML = "score: " + score;
+  quiz.innerHTML = "correct: " + correct + " " + "incorrect: " + incorrect;
+  quiz.style.fontSize = "24px";
+  quiz.style.color = "sienna";
+  var save = document.createElement("button");
+  save.innerHTML = "type your name and click to save";
+  quiz.append(save);
+  var input = document.createElement("input");
+  input.style.margin = "10px";
+  quiz.append(input);
+  save.addEventListener("click", function (event) {
+    event.preventDefault();
+    var highscore = JSON.parse(localStorage.getItem('highscore')) || [];
+    var userScore = {name: input.value, score: score };
+    highscore.length <= 5 && highscore.push(userScore);
+   if (highscore.length >= 5){
+     for (let i = 0; i < highscore.length; i++){
+      if (highscore[i].score < userScore.score){
+        highscore.splice(i, 1, userScore);
+        break;
+      }
+    }
+   }
+
+   localStorage.setItem('highscore', JSON.stringify(highscore));
+      highscore.map(i => {
+        if (highscore.length > 5){
+              highscore.splice(5);
+        }
+        var li = document.createElement("li");
+        li.innerHTML = i.name + " " + i.score;
+        return quiz.append(li);
+      }) 
+      input.style.visibility = "hidden";
+      save.style.visibility = "hidden";
+      timer.innerHTML = "Score Board";
+
+    });
+  }
+
+  start.addEventListener("click", function () {    
+    setTime();
+    displayQuestions();
+    start.style.display = "none";
+
+})
