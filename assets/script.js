@@ -1,4 +1,5 @@
-var start = document.querySelector("#start");
+//create variables for each id in HTML
+var start = document.querySelector(".start");
 var timer = document.querySelector("#timer");
 var quiz = document.querySelector("#quiz");
 var question = document.querySelector("#question");
@@ -6,10 +7,16 @@ var choice1 = document.querySelector("#choice1");
 var choice2 = document.querySelector("#choice2");
 var choice3 = document.querySelector("#choice3");
 var choice4 = document.querySelector("#choice4");
-var startTimer = 30;
+
+// Start the timer
+var timeOnClock = 30;
+
+// Monitor the answers and incorrect answers
 var correct = 0;
 var incorrect = 0;
 var currentIndex = 0;
+
+// Questions
 var questions = [
   {
     title: "What are the different data types present in javascript?",
@@ -35,14 +42,15 @@ var questions = [
   }
 ];
 
-//THIS DOES NOT WORK!!
+// Start the timer
 function startTimer() {
     // Sets timer
     var timerInterval = setInterval(function() {
-      startTimer--;
-      timer.textContent = startTimer + " seconds left.";
+      timeOnClock--;
+      timer.textContent = timeOnClock + " seconds left.";
   
-      if(startTimer === 0 || currentIndex === questions.length) {
+      // loop the timer
+      if(timeOnClock === 0 || currentIndex === questions.length) {
         clearInterval(timerInterval);
         timer.textContent = "";
         alert("finish");
@@ -51,7 +59,7 @@ function startTimer() {
   
     }, 1000);
   }
-
+// Show the questions
   function displayQuestions() {
     for (var i = 0; i < questions.length; i++) {
         var c = questions[currentIndex].choices;
@@ -73,7 +81,7 @@ function checkAnswer(answer) {
     else {
         alert("incorrect");
         incorrect++;
-        startTimer= startTimer - 8;
+        timeOnClock= timeOnClock - 8;
         nextQuestion();
     }
 }
@@ -85,17 +93,21 @@ function nextQuestion(){
 }
 
 function results(){
-  var score = parseInt(correct) + parseInt(startTimer);
+  var score = parseInt(correct) + parseInt(timeOnClock);
   question.innerHTML = "score: " + score;
-  quiz.innerHTML = "correct: " + correct + " " + "incorrect: " + incorrect;
   quiz.style.fontSize = "24px";
   quiz.style.color = "sienna";
-  var save = document.createElement("button");
-  save.innerHTML = "type your name and click to save";
-  quiz.append(save);
+  
+  quiz.innerHTML = "correct: " + correct + " " + "incorrect: " + incorrect;
+  
   var input = document.createElement("input");
   input.style.margin = "10px";
   quiz.append(input);
+  
+  var save = document.createElement("button");
+  save.innerHTML = "type your name and click to save";
+  quiz.append(save);
+  
   save.addEventListener("click", function (event) {
     event.preventDefault();
     var highscore = JSON.parse(localStorage.getItem('highscore')) || [];
@@ -126,8 +138,8 @@ function results(){
     });
   }
 
-//   start.addEventListener("click", function () {    
-//     setTime();
-//     displayQuestions();
-//     start.style.display = "none";
-// })
+  start.addEventListener("click", function () {    
+    startTimer();
+    displayQuestions();
+    start.style.display = "none";
+})
